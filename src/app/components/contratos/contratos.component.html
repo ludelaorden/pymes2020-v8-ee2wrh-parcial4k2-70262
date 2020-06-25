@@ -1,0 +1,103 @@
+<div class="container">
+<h3>{{ Titulo }}</h3>
+<div>
+
+<!-- Lista de Contratos -->
+<div id="divTablaResultados" *ngIf="AccionABMC == 'L' && Lista?.length > 0" > 
+<button type="button" class="btn btn-primary" (click)="Agregar()">
+  <span class="fas fa-plus"> </span>
+  Agregar
+</button>
+  <table class="table table-stripped">
+    <thead>
+      <tr>
+        <th>Id </th>
+        <th>Descripcion </th>
+        <th>Importe </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dto of Lista">
+        <td>{{dto.IdContrato}}</td>
+        <td>{{dto.ContratoDescripcion}}</td>
+        <td>{{dto.ContratoImporte}}</td>
+      </tr>    
+    </tbody>
+  </table>
+</div>
+
+<!-- Registro Alta -->
+<form name="FormReg" [formGroup]='FormReg' *ngIf="AccionABMC == 'A'" class="bg-light">
+<fieldset>
+
+ <!-- Descripcion Contrato -->
+     <div class="form-group row">
+      <label class="col-form-label col-sm-2 col-sm-offset-2" for="ContratoDescripcion">
+        Nombre equipo <span class="text-danger">*</span>
+      </label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" formControlName="ContratoDescripcionContratoDescripcion" 
+         [ngClass]="{'is-invalid': (FormReg.controls.ContratoDescripcion.touched || submitted)&& FormReg.controls.ContratoDescripcion.errors}" />
+        <span class="text-danger" *ngIf="(FormReg.controls.ContratoDescripcion.touched ||submitted) && FormReg.controls.ContratoDescripcion.errors?.required"> Dato requerido.
+        </span>
+        <span class="text-danger" *ngIf="(FormReg.controls.ContratoDescripcion.touched || submitted) && (FormReg.controls.ContratoDescripcion.errors?.minlength || FormReg.controls.ContratoDescripcion.errors?.maxlength) ">Dato texto, de 4 a 50 caracteres.</span>
+      </div>
+    </div>
+
+ <!-- Importe Contrato -->
+ <div class="row form-group">
+   <label class="col-form-label col-sm-2 col-sm-offset-2" for="ContratoImporte"> Importe Contrato <span class="text-danger">*</span></label>
+ <div class="col-sm-6">
+  <input type="text" name="ContratoImporte" class="form-control" formControlName="ContratoImporte"
+  [ngClass]="{'is-invalid': (FormReg.controls.ContratoImporte.touched || submitted)
+  && FormReg.controls.ContratoImporte.errors}" />
+  <span class="text-danger" *ngIf="(FormReg.controls.ContratoImporte.touched || submitted)
+ && FormReg.controls.ContratoImporte.errors?.required">
+ Dato requerido.
+ </span>
+ <span class="text-danger" *ngIf="(FormReg.controls.ContratoImporte.touched || submitted)
+ && FormReg.controls.ContratoImporte.errors?.pattern">
+ Dato numérico, 1 a 7 dígitos.
+ </span>
+ </div>
+ </div>
+
+ <!-- Id Contrato -->
+ <div class="form-group row">
+  <label class="col-form-label col-sm-2 col-sm-offset-2" for="Stock">
+    IdContrato <span class="text-danger">*</span>
+  </label>
+ <div class="col-sm-6">
+ <input type="text" name="IdContrato" class="form-control" formControlName="IdContrato"
+ [ngClass]="{'is-invalid': (FormReg.controls.IdContrato.touched || submitted)
+ && FormReg.controls.IdContrato.errors}" />
+ <span class="text-danger" *ngIf="(FormReg.controls.IdContrato.touched || submitted)
+ && FormReg.controls.IdContrato.errors?.required">
+ Dato requerido.
+ </span>
+    <span class="text-danger" *ngIf="(FormReg.controls.IdContrato.touched || submitted)
+    && FormReg.controls.IdContrato.errors?.pattern">
+    Dato numérico, de 1 a 13 dígitos.
+    </span>
+  </div>
+  </div>
+ </fieldset>
+
+  <!-- Botones -->
+  <div class="row justify-content-center">
+    <button class="btn btn-primary" (click)="Grabar()"><span class="fas fa-plus"></span> Grabar</button>
+    <button type="button" *ngIf="AccionABMC=='A'" class="btn-primary" (click)="Grabar()">
+     <span class="fas fa-check"></span> Grabar
+    </button>
+ &nbsp;
+    <button type="button" class="btn btn-warning" (click)="Volver()">
+      <span class="fas fa-undo"></span> {{AccionABMC=='L' ? 'Volver' : 'Cancelar'}}
+    </button>
+  </div>
+
+
+ <div id="divMsjFormRegistro" *ngIf="submitted && FormReg.invalid" class="row alert alert-danger">
+   <span class="fas fa-exclamation-sign"></span>{{Mensajes['RD']}}
+ </div>
+</form>
+
